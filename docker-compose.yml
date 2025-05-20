@@ -18,13 +18,13 @@ services:
       - SMTP_USER=${SMTP_USER:-user}
       - SMTP_PASSWORD=${SMTP_PASSWORD:-password}
     ports:
-      - "5000:5000"
+      - "5083:5000"
     volumes:
       - uploads:/app/uploads
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      test: ["CMD", "curl", "-f", "https://personal-services-kapnotes.x9jlsv.easypanel.host/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
