@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* HugeRTE Editor Styles */
+.hugerte-root {
+  @apply border-0 !important;
+}
+
+.hugerte-editor {
+  @apply min-h-[200px] outline-none border-0 !important;
+}
+
+.hugerte-content-readonly {
+  @apply prose max-w-none;
+}
+
+.hugerte-content-readonly img {
+  @apply max-w-full h-auto rounded-md;
+}
+
+.hugerte-content-readonly table {
+  @apply border-collapse table-auto w-full border border-border;
+}
+
+.hugerte-content-readonly th {
+  @apply bg-muted font-medium p-2 text-left border border-border;
+}
+
+.hugerte-content-readonly td {
+  @apply p-2 border border-border;
+}
+
+.hugerte-content-readonly pre {
+  @apply bg-muted font-mono p-4 rounded-md text-sm overflow-x-auto;
+}
+
+.hugerte-content-readonly code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.hugerte-content-readonly blockquote {
+  @apply border-l-4 border-muted pl-4 italic;
+}
+
+.hugerte-content-readonly hr {
+  @apply border-t border-border my-4;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}

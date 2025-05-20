@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  kapelczak-notes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kapelczak-notes:latest
+    container_name: kapelczak-notes
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - SESSION_SECRET=${SESSION_SECRET:-defaultsecretchangeme}
+      - DATABASE_URL=${DATABASE_URL}
+      - SMTP_HOST=${SMTP_HOST:-smtp.example.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-user}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-password}
+    ports:
+      - "5000:5000"
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - kapelczak-network
+    labels:
+      - easypanel.template.name=kapelczak-notes
+      - easypanel.template.description=Kapelczak Notes - Laboratory Documentation Platform
+      - easypanel.template.icon=https://github.com/kapelczak/notes/raw/main/kapelczak-logo.png
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: kapelczak-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-kapelczak_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-kapelczak_notes}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kapelczak_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kapelczak-network
+    labels:
+      - easypanel.template.name=kapelczak-postgres
+      - easypanel.template.description=PostgreSQL Database for Kapelczak Notes
+
+networks:
+  kapelczak-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  uploads:
