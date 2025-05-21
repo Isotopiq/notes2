@@ -1,4 +1,4 @@
-# Kapelczak Notes
+# Kapelczak Notes1
 
 A laboratory note-taking system with file/image attachment capabilities for scientific documentation.
 
